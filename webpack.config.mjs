@@ -7,10 +7,9 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: './src/GITHUB_TOKEN.env' });
 
+const isProduction = process.env.NODE_ENV === 'production';
 
-const isProduction = process.env.NODE_ENV == 'production';
-
-const __filename = fileURLToPath(import.meta.url);
+const filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const stylesHandler = 'style-loader';
 

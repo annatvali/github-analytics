@@ -1,3 +1,5 @@
 import tailwindcss from 'tailwindcss';
 
-export const plugins = ['postcss-preset-env', tailwindcss(), 'autoprefixer'];
+const plugins = ['postcss-preset-env', tailwindcss(), 'autoprefixer'];
+
+export default plugins;

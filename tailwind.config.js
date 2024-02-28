@@ -1,4 +1,5 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
+
 export const content = ['./src/**/*.{js,html}'];
 export const theme = {
   extend: {

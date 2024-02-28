@@ -2,6 +2,11 @@
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import webpack from 'webpack';
+import dotenv from 'dotenv';
+
+dotenv.config({ path: './src/GITHUB_TOKEN.env' });
+
 
 const isProduction = process.env.NODE_ENV == 'production';
 
@@ -22,7 +27,9 @@ const config = {
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
-
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(process.env),
+    }),
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
   ],

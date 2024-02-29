@@ -9,7 +9,9 @@ dotenv.config({ path: './src/GITHUB_TOKEN.env' });
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-const filename = fileURLToPath(import.meta.url);
+// eslint-disable-next-line no-underscore-dangle
+const __filename = fileURLToPath(import.meta.url);
+// eslint-disable-next-line no-underscore-dangle
 const __dirname = dirname(__filename);
 const stylesHandler = 'style-loader';
 
@@ -27,7 +29,7 @@ const config = {
       template: './src/index.html',
     }),
     new webpack.DefinePlugin({
-      "process.env": JSON.stringify(process.env),
+      'process.env': JSON.stringify(process.env.GITHUB_TOKEN),
     }),
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
@@ -44,7 +46,7 @@ const config = {
       },
       {
         test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: 'asset',
+        type: 'asset/resource',
       },
 
       // Add your rules for custom modules here
@@ -56,8 +58,6 @@ const config = {
 export default () => {
   if (isProduction) {
     config.mode = 'production';
-
-
   } else {
     config.mode = 'development';
   }

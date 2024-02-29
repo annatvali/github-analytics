@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   env: {
     browser: true,
     commonjs: true,
@@ -19,5 +19,10 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
   },
-  rules: {},
+  rules: {
+    'import/no-extraneous-dependencies': [
+      'error',
+      { devDependencies: ['**/postcss.config.js'] },
+    ],
+  },
 };

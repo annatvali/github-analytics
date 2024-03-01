@@ -40,11 +40,13 @@ searchButton.addEventListener('click', (e) => {
   fetchGitHubUsers(usernameInput);
 });
 
-// select by country
-let currentPage = 1;
+// select by country with most folowers
+let currentPage = '';
+let pages = [];
 
 document.getElementById('filterButton').addEventListener('click', (e) => {
   e.preventDefault();
+  currentPage = 1;
   const country = document.getElementById('countrySelect').value;
   fetchGitHubUsersByCountry(country, currentPage);
 });
@@ -60,30 +62,48 @@ async function fetchGitHubUsersByCountry(country, page) {
 
 function displayUsers(users) {
   const userList = document.getElementById('userList');
+  userList.className = "grid grid-cols-1 lg:grid-cols-2 gap-4";
   userList.innerHTML = '';
   users.forEach(user => {
     const userElement = document.createElement('div');
-    userElement.className = "userElement grid items-center grid-cols-6 gap-4 bg-gray-100 p-4 rounded-md m-4"
-    userElement.innerHTML = `
-    <img class="rounded-full" src="${user.avatar_url}" width="80" height="80" alt="${user.name}'s github avatar">
-    <p>Username: ${user.login}</p>
-    <a href="${user.html_url}">URL: ${user.html_url}</a>
-    <p>Contributions: ${user.score}</p>
+    userElement.className = "userElement grid items-center lg:grid-cols-4 sm:grid-cols-1 sm:justify-center sm:items-center gap-2 bg-gray-100 p-4 rounded-md my-4"
+    userElement.innerHTML =
+    `
+    <div class="flex items-center">
+      <p class="font-semibold mr-4">${users.indexOf(user) + 1}</p>
+      <img class="rounded-full" src="${user.avatar_url}" width="80" height="80" alt="${user.name}'s github avatar">
+    </div>
+    <div>
+    <h3 class="font-semibold text-indigo-900">Username</h3>
+    <p>${user.login}</p>
+    </div>
+    <div>
+    <h3 class="font-semibold text-indigo-900">Github URL</h3>
+    <a href="${user.html_url}" class="text-blue-600 visited:text-purple-600">link</a>
+    </div>
     `;
     userList.appendChild(userElement);
+    document.getElementById('currentPage').textContent = currentPage;
+    pages[currentPage] = users;
   });
 }
 
 document.getElementById('prevButton').addEventListener('click', (e) => {
   e.preventDefault();
-  currentPage--;
-  const country = document.getElementById('countrySelect').value;
-  fetchGitHubUsersByCountry(country, currentPage);
+  if (currentPage > 1) {
+    currentPage--;
+    const country = document.getElementById('countrySelect').value;
+    fetchGitHubUsersByCountry(country, pages[currentPage]);
+  }
 });
 
 document.getElementById('nextButton').addEventListener('click', (e) => {
   e.preventDefault();
   currentPage++;
-  const country = document.getElementById('countrySelect').value;
-  fetchGitHubUsersByCountry(country, currentPage);
+if (pages[currentPage]) {
+    displayUsers(pages[currentPage]);
+  } else {
+    const country = document.getElementById('countrySelect').value;
+    fetchGitHubUsersByCountry(country, currentPage);
+  }
 });
